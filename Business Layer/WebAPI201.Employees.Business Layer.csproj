@@ -5,4 +5,9 @@
     <RootNamespace>Business_Layer</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Data Access Layer\WebAPI201.Employees.Data Access Layer.csproj" />
+    <ProjectReference Include="..\Models\WebAPI201.Employees.Models.csproj" />
+  </ItemGroup>
+
 </Project>
