@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31129.286
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebAPI201.Employees.API", "WebAPI201.Employees.API.csproj", "{D688F642-BD4A-41D1-AA1D-A3BAAACFB441}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebAPI201.Employees.API", "WebAPI201.Employees.API.csproj", "{D688F642-BD4A-41D1-AA1D-A3BAAACFB441}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebAPI201.Employees.Data Access Layer", "..\Data Access Layer\WebAPI201.Employees.Data Access Layer.csproj", "{46174570-2296-4AE5-A2E4-24CBC44151E8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebAPI201.Employees.Data Access Layer", "..\Data Access Layer\WebAPI201.Employees.Data Access Layer.csproj", "{46174570-2296-4AE5-A2E4-24CBC44151E8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebAPI201.Employees.Business Layer", "..\Business Layer\WebAPI201.Employees.Business Layer.csproj", "{CC6A22BC-A3E7-4031-824E-6FDC647ABDCB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebAPI201.Employees.Business Layer", "..\Business Layer\WebAPI201.Employees.Business Layer.csproj", "{CC6A22BC-A3E7-4031-824E-6FDC647ABDCB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebAPI201.Employees.Models", "..\Models\WebAPI201.Employees.Models.csproj", "{0F75D643-8AFC-48AB-A745-77FF74A2CAC6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebAPI201.Employees.Models", "..\Models\WebAPI201.Employees.Models.csproj", "{0F75D643-8AFC-48AB-A745-77FF74A2CAC6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebAPI201.Employees.API.TestProject", "..\WebAPI201.Employees.API.TestProject\WebAPI201.Employees.API.TestProject.csproj", "{268D9D9B-7983-4974-AE82-3436AC0BDE4B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{0F75D643-8AFC-48AB-A745-77FF74A2CAC6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0F75D643-8AFC-48AB-A745-77FF74A2CAC6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0F75D643-8AFC-48AB-A745-77FF74A2CAC6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{268D9D9B-7983-4974-AE82-3436AC0BDE4B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{268D9D9B-7983-4974-AE82-3436AC0BDE4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{268D9D9B-7983-4974-AE82-3436AC0BDE4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{268D9D9B-7983-4974-AE82-3436AC0BDE4B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
