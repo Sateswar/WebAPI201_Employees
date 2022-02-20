@@ -34,10 +34,10 @@ namespace WebAPI201_Employees.Controllers
         [HttpGet("GetEmployeeById/{id}")]
         public object GetEmployeeById(int id)
         {
-            var data = _employeeService.GetEmployeeById(id);
-            return data;
+            return _employeeService.GetEmployeeById(id);
         }
 
+   
         // GET: api/<Employees>
         [HttpGet("GetEmployees")]
         public object GetAllEmployees()
@@ -47,23 +47,19 @@ namespace WebAPI201_Employees.Controllers
 
         // POST api/<Employees>
         [HttpPost("AddEmployee")]
-        public async Task<Object> AddEmployee([FromBody] JsonElement value)
+        public ActionResult AddEmployee([FromBody] JsonDocument value)
         {
             try
             {
-                //var serializeOptions = new JsonSerializerOptions();
-                //serializeOptions.Converters.Add(new Int32Converter());
-                //serializeOptions.Converters.Add(new DecimalConverter());
                 string json = System.Text.Json.JsonSerializer.Serialize(value);
-
                 Employee emp = JsonConvert.DeserializeObject<Employee>(json);
-                await _employeeService.AddEmployee(emp);
-                return true;
+                 _employeeService.AddEmployee(emp);
+                return Ok(); ;
             }
             catch (Exception ex)
             {
 
-                return false;
+                return StatusCode(500, "Internal Server Error" + ex.InnerException + "-" + ex.Message + "-" + ex.StackTrace);
             }
             
             
@@ -72,28 +68,27 @@ namespace WebAPI201_Employees.Controllers
 
         // DELETE api/<Employees>/5
         
-        [HttpDelete("DeleteEmployee/{id}")]
-        public void DeleteEmployee(int Employeeid)
+        [HttpDelete]
+        public ActionResult DeleteEmployeeByEmployeeId(int EmployeeId)
         {
             try
-            {
+            { 
                 Employee emp = new Employee();
-                emp.Id = Employeeid;
-                _employeeService.DeleteEmployeeById(emp);
+                emp = _employeeService.GetEmployeeById(EmployeeId);
+                if (string.IsNullOrEmpty(emp.firstName))
+                {
+                    return NotFound();
+                }
+                emp.Id = EmployeeId;
+                 _employeeService.DeleteEmployeeById(emp);
+                 return Ok();
             }
             catch (Exception ex)
             {
 
-                throw ex;
+                return StatusCode(500, "Internal Server Error"+ex.InnerException+"-"+ex.Message+"-"+ex.StackTrace);
             }
         }
-
-        //// PUT api/<Employees>/5
-        //[HttpPut("{id}")]
-        //public void PutEmployee(int id, [FromBody] string value)
-        //{
-        //    var data=_employeeService.Create
-        //}
 
     }
 }

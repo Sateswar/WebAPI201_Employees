@@ -47,11 +47,11 @@ namespace Business_Layer
         }
 
 
-        public async Task<Employee> AddEmployee(Employee objEmployee)
+        public void AddEmployee(Employee objEmployee)
         {
             
             
-            return await _employee.Create(objEmployee);
+              _employee.Create(objEmployee);
         }
 
         public void DeleteEmployeeById(Employee ObjEmployee)
