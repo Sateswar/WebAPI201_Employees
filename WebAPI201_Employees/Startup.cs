@@ -1,26 +1,14 @@
+using Business_Layer;
 using Data_Access_Layer.Data;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Data_Access_Layer.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Microsoft.Identity.Web;
 using Microsoft.OpenApi.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-
-using Microsoft.EntityFrameworkCore;
-using Data_Access_Layer.Repository;
 using Models;
-using Business_Layer;
 
 namespace WebAPI201_Employees
 {
@@ -47,13 +35,7 @@ namespace WebAPI201_Employees
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebAPI201_Employees", Version = "v1" });
             });
-            //services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            //    .AddMicrosoftIdentityWebApi(_configuration.GetSection("AzureAd"));
-
-            //services.AddControllers
-            //
-            //services.AddControllers().AddJsonOptions();
-                }
+        }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

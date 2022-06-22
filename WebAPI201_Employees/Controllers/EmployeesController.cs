@@ -4,11 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Models;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -28,67 +24,92 @@ namespace WebAPI201_Employees.Controllers
             _employeeRepository = employeeRepository;
         }
 
-        
+
 
         // GET api/<Employees>/5
         [HttpGet("GetEmployeeById/{id}")]
-        public object GetEmployeeById(int id)
+        public IActionResult GetEmployeeById(int id)
         {
-            return _employeeService.GetEmployeeById(id);
+            try
+            {
+                Employee emp = new Employee();
+                emp = _employeeService.GetEmployeeById(id);
+                if (emp == null)
+                {
+                    return NotFound();
+                }
+                return Ok(_employeeService.GetEmployeeById(id));
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(500, "Internal Server Error - Class:EmployeesController and Method: public IActionResult GetEmployeeById(int id)" + ex.InnerException + "-" + ex.Message + "-" + ex.StackTrace);
+            }
+
         }
 
-   
+
         // GET: api/<Employees>
         [HttpGet("GetEmployees")]
-        public object GetAllEmployees()
+        public IActionResult GetAllEmployees()
         {
-            return _employeeService.GetAllEmployees();
+            try
+            {
+                return Ok(_employeeService.GetAllEmployees());
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(500, "Internal Server Error in - Class:EmployeesController and Method: public IActionResult GetAllEmployees() " + ex.InnerException + "-" + ex.Message + "-" + ex.StackTrace);
+            }
+
         }
 
         // POST api/<Employees>
         [HttpPost("AddEmployee")]
-        public ActionResult AddEmployee([FromBody] JsonDocument value)
+        public IActionResult AddEmployee([FromBody] JsonDocument value)
         {
             try
             {
                 string json = System.Text.Json.JsonSerializer.Serialize(value);
                 Employee emp = JsonConvert.DeserializeObject<Employee>(json);
-                 _employeeService.AddEmployee(emp);
-                return Ok(); ;
+                _employeeService.AddEmployee(emp);
+                return Created("~api/Employees/AddEmployee", emp);
             }
             catch (Exception ex)
             {
 
-                return StatusCode(500, "Internal Server Error" + ex.InnerException + "-" + ex.Message + "-" + ex.StackTrace);
+                return StatusCode(500, "Internal Server Error  - Class:EmployeesController and Method: public IActionResult AddEmployee([FromBody] JsonDocument value)" + ex.InnerException + "-" + ex.Message + "-" + ex.StackTrace);
             }
-            
-            
+
+
         }
 
 
         // DELETE api/<Employees>/5
-        
+
         [HttpDelete]
         public ActionResult DeleteEmployeeByEmployeeId(int EmployeeId)
         {
             try
-            { 
+            {
                 Employee emp = new Employee();
                 emp = _employeeService.GetEmployeeById(EmployeeId);
-                if (string.IsNullOrEmpty(emp.firstName))
+                if (emp == null)
                 {
                     return NotFound();
                 }
                 emp.Id = EmployeeId;
-                 _employeeService.DeleteEmployeeById(emp);
-                 return Ok();
+                _employeeService.DeleteEmployeeById(emp);
+
             }
             catch (Exception ex)
             {
 
-                return StatusCode(500, "Internal Server Error"+ex.InnerException+"-"+ex.Message+"-"+ex.StackTrace);
+                return StatusCode(500, "Internal Server Error  - Class:EmployeesController and Method: public ActionResult DeleteEmployeeByEmployeeId(int EmployeeId) " + ex.InnerException + "-" + ex.Message + "-" + ex.StackTrace);
             }
-        }
+            return Ok();
 
+        }
     }
 }

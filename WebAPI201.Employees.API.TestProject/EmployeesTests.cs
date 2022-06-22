@@ -1,21 +1,20 @@
 using Business_Layer;
 using Data_Access_Layer.Repository;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Models;
-using System.Collections.Generic;
-using WebAPI201_Employees.Controllers;
-using System.Text.Json;
 using Moq;
-using Xunit;
-using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.Text.Json;
+using WebAPI201_Employees.Controllers;
 
 namespace WebAPI201.Employees.API.TestProject
 {
     [TestClass]
     public class EmployeesControllerTest
     {
-        
+
         EmployeeService _employeeService;
         IRepository<Employee> _employeeRepository;
 
@@ -36,17 +35,16 @@ namespace WebAPI201.Employees.API.TestProject
         public void Get_AllEmployeeRecords_whenItIsCalled()
         {
             //Arrange
-            var listOfEmployee = new EmployeesController(_employeeService,_employeeRepository);
+            var listOfEmployee = new EmployeesController(_employeeService, _employeeRepository);
 
 
             //Act
-            listOfEmployee.GetAllEmployees();
-           
+            var result = listOfEmployee.GetAllEmployees();
+
 
             //Assert
-            Assert.IsNotNull(listOfEmployee.GetAllEmployees());
-            Assert.AreEqual(2, ((List<Employee>)listOfEmployee.GetAllEmployees()).Count);
-            
+
+            Assert.IsInstanceOfType(result, typeof(OkObjectResult));
 
         }
 
@@ -58,11 +56,18 @@ namespace WebAPI201.Employees.API.TestProject
 
 
             //Act
-            listOfEmployee.GetEmployeeById(1);
+            var result = listOfEmployee.GetEmployeeById(1);
+            //Act
+            var result1 = listOfEmployee.GetEmployeeById(100000000);
+
 
             //Assert
-            Assert.IsNotNull(listOfEmployee.GetEmployeeById(1));
-            Assert.AreEqual(1,((Employee)listOfEmployee.GetEmployeeById(1)).Id);
+            Assert.IsInstanceOfType(result, typeof(OkObjectResult));
+
+
+            //Assert
+            //Assert.IsInstanceOfType(result1, typeof(OkObjectResult));
+
         }
 
 
@@ -73,12 +78,42 @@ namespace WebAPI201.Employees.API.TestProject
 
             var listOfEmployee = new EmployeesController(_employeeService, _employeeRepository);
             //Act
-            var result=listOfEmployee.DeleteEmployeeByEmployeeId(1);
+            var result = listOfEmployee.DeleteEmployeeByEmployeeId(1);
 
             //Assert
-                       
+
             Assert.IsInstanceOfType(result, typeof(OkResult));
         }
+
+        [TestMethod]
+        public void DeleteEmployeeById_whenItIsCalled_WithNullValue()
+        {
+            //Arrange
+
+            var listOfEmployee = new EmployeesController(_employeeService, _employeeRepository);
+            //Act
+            var result = listOfEmployee.DeleteEmployeeByEmployeeId(300);
+
+            //Assert
+
+            Assert.IsInstanceOfType(result, typeof(NotFoundResult));
+        }
+
+        [TestMethod]
+        public void DeleteEmployeeById_whenItIsCalled_ForException()
+        {
+            //Arrange
+
+            var listOfEmployee = new EmployeesController(_employeeService, _employeeRepository);
+            //Act
+            listOfEmployee.DeleteEmployeeByEmployeeId(500);
+            var result = listOfEmployee.DeleteEmployeeByEmployeeId(500);
+
+            //Assert
+
+            Assert.IsInstanceOfType(result, typeof(NotFoundResult));
+        }
+
         [TestMethod]
         public void AddEmployeeBy_whenItIsCalled()
         {
@@ -88,11 +123,11 @@ namespace WebAPI201.Employees.API.TestProject
             var listOfEmployee = new EmployeesController(_employeeService, _employeeRepository);
 
             //Act
-            var result=listOfEmployee.AddEmployee(JsonDocument.Parse(data));
+            var result = listOfEmployee.AddEmployee(JsonDocument.Parse(data));
 
 
             //Assert
-            Assert.IsInstanceOfType(result, typeof(OkResult));
+            Assert.IsInstanceOfType(result, typeof(CreatedResult));
 
         }
     }

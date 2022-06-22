@@ -2,9 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WebAPI201.Employees.Models;
 
 namespace Models
@@ -30,6 +27,7 @@ namespace Models
         public int? ManagerId { get; set; }
         [ForeignKey("ManagerId")]
         public ICollection<Employee> Manager { get; set; }
+        public string Exception { get; set; }
 
     }
 }
