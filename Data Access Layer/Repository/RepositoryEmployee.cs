@@ -3,7 +3,6 @@ using Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Data_Access_Layer.Repository
@@ -18,7 +17,7 @@ namespace Data_Access_Layer.Repository
         }
 
 
-       public Employee GetById(int Id)
+        public Employee GetById(int Id)
         {
             try
             {
@@ -29,7 +28,7 @@ namespace Data_Access_Layer.Repository
 
                 throw ex;
             }
-            
+
         }
 
         public IEnumerable<Employee> GetAll()
@@ -46,17 +45,44 @@ namespace Data_Access_Layer.Repository
         }
 
 
-       public async Task<Employee> Create(Employee _object)
+        public async Task<Employee> Create(Employee _object)
         {
-            var obj = await _dbContext.Employees.AddAsync(_object);
-            _dbContext.SaveChanges();
-            return obj.Entity;
+            try
+            {
+                var obj = await _dbContext.Employees.AddAsync(_object);
+                _dbContext.SaveChanges();
+                return obj.Entity;
+            }
+            catch(ArgumentNullException ane)
+            {
+                throw ane;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+           
         }
 
         void IRepository<Employee>.Delete(Employee _object)
         {
-            _dbContext.Remove(_object);
-            _dbContext.SaveChanges();
+            try
+            {
+                _dbContext.Remove(_object);
+                _dbContext.SaveChanges();
+            }
+            catch (ArgumentNullException ane)
+            {
+
+                throw ane;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            
         }
 
 

@@ -3,15 +3,14 @@ using Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Business_Layer
 {
-    public class EmployeeService
+    public class EmployeeService: IEmployeeService
     {
 
         private readonly IRepository<Employee> _employee;
+        Employee employeeobj = new Employee();
 
         public EmployeeService(IRepository<Employee> employee)
         {
@@ -22,6 +21,7 @@ namespace Business_Layer
 
         public Employee GetEmployeeById(int EmployeeId)
         {
+            
             try
             {
                 return _employee.GetAll().Where(e => e.Id == EmployeeId).FirstOrDefault();
@@ -29,9 +29,11 @@ namespace Business_Layer
             catch (Exception ex)
             {
 
-                throw ex;
+                employeeobj.Exception= "Internal Server Error - Class:EmployeeService and Method: public Employee GetEmployeeById(int EmployeeId) " + ex.InnerException + "-" + ex.Message + "-" + ex.StackTrace;
+                return employeeobj;
             }
             
+   
         }
         //GET All Employee Details 
         public IEnumerable<Employee> GetAllEmployees()
@@ -42,16 +44,29 @@ namespace Business_Layer
             }
             catch (Exception ex)
             {
-                throw ex;
+
+                employeeobj.Exception = "Internal Server Error - Class:EmployeeService and Method:  public IEnumerable<Employee> GetAllEmployees() " + ex.InnerException + " - " + ex.Message + "-" + ex.StackTrace;
+                List<Employee> list = new List<Employee>();
+                list.Add(employeeobj);
+                return list;
             }
+            
         }
 
 
-        public async Task<Employee> AddEmployee(Employee objEmployee)
+        public void AddEmployee(Employee objEmployee)
         {
+            try
+            {
+                _employee.Create(objEmployee);
+            }
+            catch (Exception ex)
+            {
+
+                employeeobj.Exception = "Internal Server Error - Class:EmployeeService and Method: public void AddEmployee(Employee objEmployee) " + ex.InnerException + " - " + ex.Message + "-" + ex.StackTrace;
+
+            }
             
-            
-            return await _employee.Create(objEmployee);
         }
 
         public void DeleteEmployeeById(Employee ObjEmployee)
@@ -60,12 +75,14 @@ namespace Business_Layer
             {
                 _employee.Delete(ObjEmployee);
             }
-            catch (Exception DelEx)
+            catch (Exception ex)
             {
 
-                throw DelEx;
+                employeeobj.Exception = "Internal Server Error - Class:EmployeeService and Method: public void DeleteEmployeeById(Employee ObjEmployee)" + ex.InnerException + " - " + ex.Message + "-" + ex.StackTrace;
             }
-             
+           
+                
+
         }
 
     }
